@@ -6,7 +6,7 @@ class scene_1 extends Phaser.Scene {
 
     preload(){
         this.load.path = "./assets/";
-        this.load.image("logo", "logo.png"); // make this have transparent background
+        this.load.image("logo", "logo.png");
         console.log("Finished preloading!");
     }
 
@@ -20,11 +20,29 @@ class scene_1 extends Phaser.Scene {
         );
         
         this.imageObject.setScale(0.2);
+        this.imageObject.setAlpha(0);
+
+        this.tweens.add({
+            targets: this.imageObject,
+            alpha: 1,
+            duration: 2000,
+        })
 
         // progress to next scene 
         let space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         space.on('down', () => {
             this.scene.start("scene_2");
+        })
+
+        // fade to black
+        this.time.delayedCall(4000, () => {
+            this.cameras.main.fadeOut(2000, 0, 0, 0)
+        })
+    
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.time.delayedCall(500, () => {
+                this.scene.start('scene_2')
+            })
         })
 
     }
@@ -46,11 +64,14 @@ class scene_2 extends Phaser.Scene {
     }
 
     create(){
+
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+
         this.imageObject = this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
             "2_background",
-        )
+        );
         
         this.imageObject.setScale(0.5);
 
@@ -58,9 +79,50 @@ class scene_2 extends Phaser.Scene {
             this.cameras.main.centerX,
             this.cameras.main.centerY,
             "2_foreground",
-        )
+        );
         
         this.imageObject.setScale(0.5);
+
+        this.textObject = this.add.text(
+            650,
+            200,
+            "In a world of hardships…",
+            {
+                font: "30px bold",
+                color: "0x00000"
+            }
+        );
+        
+        console.log(this.textObject);
+        this.textObject.setAlpha(0);
+
+        this.time.delayedCall(2000, () => {
+            this.tweens.add({
+                targets: this.textObject,
+                alpha: 1,
+                duration: 1000,
+            })
+
+            this.textObject = this.add.text(
+                800,
+                350,
+                "…of foes and monsters…",
+                {
+                    font: "30px bold",
+                    color: "0x00000"
+                }
+            );
+    
+            this.textObject.setAlpha(0);
+
+            this.time.delayedCall(3000, () => {
+                this.tweens.add({
+                    targets: this.textObject,
+                    alpha: 1,
+                    duration: 1000,
+                })
+            });
+        });
     
         // progress to next scene
         let space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -165,7 +227,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1350,
     height: 825,
-    backgroundColor: 0x204140,
+    backgroundColor: 0x00000,
     scene: [scene_1, scene_2, scene_3, scene_4],
 }
 
