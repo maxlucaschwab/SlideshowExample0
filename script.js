@@ -83,13 +83,15 @@ class scene_2 extends Phaser.Scene {
         
         this.imageObject.setScale(0.5);
 
+
+        // Start text rendering
         this.textObject = this.add.text(
             650,
             200,
             "In a world of hardships…",
             {
                 font: "30px bold",
-                color: "0x00000"
+                color: "#00000"
             }
         );
         
@@ -109,7 +111,7 @@ class scene_2 extends Phaser.Scene {
                 "…of foes and monsters…",
                 {
                     font: "30px bold",
-                    color: "0x00000"
+                    color: "#00000"
                 }
             );
     
@@ -123,6 +125,7 @@ class scene_2 extends Phaser.Scene {
                 })
             });
         });
+        // End text rendering
     
         // progress to next scene
         let space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -135,6 +138,18 @@ class scene_2 extends Phaser.Scene {
         left.on('down', () => {
             this.scene.start("scene_1");
         })
+
+        // fade to black
+        this.time.delayedCall(7000, () => {
+            this.cameras.main.fadeOut(2000, 0, 0, 0)
+        })
+    
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.time.delayedCall(500, () => {
+                this.scene.start('scene_3')
+            })
+        })
+
     }
 
     update(){}
@@ -153,6 +168,9 @@ class scene_3 extends Phaser.Scene {
     }
 
     create(){
+
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+
         this.imageObject = this.add.image(
             this.cameras.main.centerX,
             this.cameras.main.centerY,
@@ -160,6 +178,49 @@ class scene_3 extends Phaser.Scene {
         )
         
         this.imageObject.setScale(0.5);
+
+        // Start text rendering
+        this.textObject = this.add.text(
+            150,
+            200,
+            "A challenger approaches…",
+            {
+                font: "30px bold",
+                color: "#ffffff"
+            }
+        );
+        
+        console.log(this.textObject);
+        this.textObject.setAlpha(0);
+
+        this.time.delayedCall(2000, () => {
+            this.tweens.add({
+                targets: this.textObject,
+                alpha: 1,
+                duration: 1000,
+            })
+
+            this.textObject = this.add.text(
+                800,
+                350,
+                "One who seeks to become WHOLE…",
+                {
+                    font: "30px bold",
+                    color: "#ffffff"
+                }
+            );
+    
+            this.textObject.setAlpha(0);
+
+            this.time.delayedCall(3000, () => {
+                this.tweens.add({
+                    targets: this.textObject,
+                    alpha: 1,
+                    duration: 1000,
+                })
+            });
+        });
+        // End text rendering
     
         // progress to next scene
         let space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
