@@ -464,6 +464,13 @@ class scene_5 extends Phaser.Scene {
             150,
             "Art Assets:\n\n" + "    - Made by me in Clip Studio Paint\n\n" + "Audio Assets:\n\n" + "    - Whoosh by qubodup on freesound.org (audio was slowed, pitched down, and cut in Audacity\n\n" + "    - Birds Singing 03 by DCPoke on freesound.org (audio was normalized, denoised, and cut in Audacity"
         )
+        
+        // proceed to previous screen
+        let left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        left.on('down', () => {
+            this.scene.start("scene_4");
+        });
+
     }
 
     update(){}
