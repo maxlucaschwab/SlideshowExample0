@@ -7,6 +7,7 @@ class scene_1 extends Phaser.Scene {
     preload(){
         this.load.path = "./assets/";
         this.load.image("logo", "logo.png");
+        this.load.audio("whoosh", "whoosh.001.wav");
         console.log("Finished preloading!");
     }
 
@@ -27,6 +28,40 @@ class scene_1 extends Phaser.Scene {
             alpha: 1,
             duration: 2000,
         });
+
+        this.sound.add(
+            "whoosh", 
+            { 
+                loop: false 
+            }
+        ).play();
+
+        this.textObject = this.add.text(
+            this.cameras.main.centerX,
+            600,
+            "SOLERAS STUDIOS",
+            {
+                font: "35px bold"
+            }
+        );
+
+        this.textObject.setAlpha(0);
+
+        this.tweens.add({
+            targets: this.textObject,
+            alpha: 1,
+            duration: 2000,
+        });
+
+        this.textObject.setOrigin(0.5, 0.5);
+
+        this.textObject = this.add.text(
+            this.cameras.main.centerX,
+            800,
+            "Press space to skip"
+        );
+
+        this.textObject.setOrigin(0.5, 0.5);
 
         // progress to next scene 
         let space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -60,6 +95,7 @@ class scene_2 extends Phaser.Scene {
         this.load.path = "./assets/";
         this.load.image("2_background", "scene2_bg.png");
         this.load.image("2_foreground", "scene2_fg.png");
+        this.load.audio("birds", "birdNoises.wav");
         console.log("Finished preloading!");
     }
 
@@ -72,6 +108,13 @@ class scene_2 extends Phaser.Scene {
             this.cameras.main.centerY,
             "2_background",
         );
+
+        this.sound.add(
+            "birds", 
+            { 
+                loop: true 
+            }
+        ).play();
 
         this.tweens.add({
             targets: this.imageObject,
@@ -355,8 +398,7 @@ class scene_4 extends Phaser.Scene {
                 font: "70px bold",
                 color: "#000000",
                 lineSpacing: 20
-            },
-                   
+            },                   
         ).setInteractive(); 
 
         this.tweens.add({
@@ -379,7 +421,7 @@ class scene_4 extends Phaser.Scene {
         
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.time.delayedCall(500, () => {
-                    this.scene.start('scene_4')
+                    this.scene.start('scene_5')
                 });
             });
         });
@@ -394,12 +436,42 @@ class scene_4 extends Phaser.Scene {
     update(){}
 }
 
+class scene_5 extends Phaser.Scene {
+    
+    constructor(){
+        super("scene_5");
+    }
+
+    preload(){}
+
+    create(){
+        this.textObject = this.add.text(
+            this.cameras.main.centerX,
+            50,
+            "Credits",
+            {
+                font: "70px bold",
+            }
+        )
+
+        this.textObject.setOrigin(0.5, 0.5);
+
+        this.textObject = this.add.text(
+            100,
+            150,
+            "Art Assets:\n\n" + "    - Made by me in Clip Studio Paint\n\n" + "Audio Assets:\n\n" + "    - Whoosh by qubodup on freesound.org (audio was slowed, pitched down, and cut in Audacity\n\n" + "    - Birds Singing 03 by DCPoke on freesound.org (audio was normalized, denoised, and cut in Audacity"
+        )
+    }
+
+    update(){}
+}
+
 let config = {
     type: Phaser.WEBGL,
     width: 1350,
     height: 825,
     backgroundColor: 0x00000,
-    scene: [scene_1, scene_2, scene_3, scene_4],
+    scene: [scene_1, scene_2, scene_3, scene_4, scene_5],
 }
 
 let game = new Phaser.Game(config);
