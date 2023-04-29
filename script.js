@@ -68,20 +68,32 @@ class scene_2 extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
 
         this.imageObject = this.add.image(
-            this.cameras.main.centerX,
+            this.cameras.main.centerX + 20,
             this.cameras.main.centerY,
             "2_background",
         );
+
+        this.tweens.add({
+            targets: this.imageObject,
+            x: this.cameras.main.centerX,
+            duration: 9000,
+        })
         
         this.imageObject.setScale(0.5);
 
         this.imageObject = this.add.image(
-            this.cameras.main.centerX,
+            this.cameras.main.centerX - 50,
             this.cameras.main.centerY,
             "2_foreground",
         );
         
         this.imageObject.setScale(0.5);
+
+        this.tweens.add({
+            targets: this.imageObject,
+            x: this.cameras.main.centerX,
+            duration: 9000,
+        })
 
 
         // Start text rendering
