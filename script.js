@@ -184,12 +184,18 @@ class scene_3 extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
 
         this.imageObject = this.add.image(
-            this.cameras.main.centerX,
+            this.cameras.main.centerX-25,
             this.cameras.main.centerY,
             "3_background",
         );
         
-        this.imageObject.setScale(0.5);
+        this.imageObject.setScale(0.55);
+
+        this.tweens.add({
+            targets: this.imageObject,
+            x: this.cameras.main.centerX,
+            duration: 7000
+        });
 
         // Start text rendering
         this.textObject = this.add.text(
@@ -282,12 +288,18 @@ class scene_4 extends Phaser.Scene {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
 
         this.imageObject = this.add.image(
-            this.cameras.main.centerX,
+            this.cameras.main.centerX-25,
             this.cameras.main.centerY,
             "4_background",
         );
         
-        this.imageObject.setScale(0.5);
+        this.imageObject.setScale(0.55);
+
+        this.tweens.add({
+            targets: this.imageObject,
+            x: this.cameras.main.centerX,
+            duration: 10000,
+        });
 
         this.imageObject = this.add.image(
             1350,
@@ -334,6 +346,49 @@ class scene_4 extends Phaser.Scene {
         left.on('down', () => {
             this.scene.start("scene_3");
         });
+
+        this.startButton = this.add.text(
+            -300, 
+            this.cameras.main.centerY-100, 
+            'Start Game\n' + "Options\n" + "Quit",
+            {
+                font: "70px bold",
+                color: "#000000",
+                lineSpacing: 20
+            },
+                   
+        ).setInteractive(); 
+
+        this.tweens.add({
+            targets: this.startButton,
+            x: 65,
+            duration: 1500
+        });
+
+        this.startButton.on('pointerover', () => {
+            this.startButton.setStyle({ fill: '#ffeb86'});
+        });
+
+        this.startButton.on('pointerout', () => {
+            this.startButton.setStyle({ fill: '#000000'});
+        });
+
+        this.startButton.on('pointerdown', () => {
+
+            this.cameras.main.fadeOut(2000, 0, 0, 0);
+        
+            this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+                this.time.delayedCall(500, () => {
+                    this.scene.start('scene_4')
+                });
+            });
+        });
+
+
+
+            // .on('pointerdown', startGame)
+            // .on('pointerout', () => startButton.setStyle({ fill: '#FFF' }))
+
     }
 
     update(){}
