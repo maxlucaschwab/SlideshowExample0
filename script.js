@@ -138,6 +138,9 @@ class scene_2 extends Phaser.Scene {
             duration: 9000,
         })
 
+        this.graphics = this.add.graphics();
+        this.graphics.fillStyle(0xffeb86, 1);
+        this.graphics.fillCircle(1050, 205, 28);
 
         // Start text rendering
         this.textObject = this.add.text(
